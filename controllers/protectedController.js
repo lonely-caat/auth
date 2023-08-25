@@ -10,9 +10,9 @@ export class ProtectedController {
 
     try {
       const response = await this.protectedRepository.getProtected();
-      res.status(666).json(response);
+      res.status(200).json(response);
     } catch (error) {
-      res.status(401).json({ message: "please send auth headers" });
+      res.status(401).json({ message: "UnathorizedOrAuthHeadersMissing" });
       next(error);
     }
   };

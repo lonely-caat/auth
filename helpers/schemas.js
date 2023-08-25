@@ -7,6 +7,7 @@ export const registerSchema = object().shape({
   password: string()
     .required('No password provided.')
     .min(6, 'Password is too short - should be 6 chars minimum.')
-    .matches(/[a-zA-Z]/, 'Password can only contain Latin letters.')
+    .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/, 'Password should contain minimum eight ' +
+      'characters, at least one uppercase letter, one lowercase letter and one number')
 });
 

@@ -1,4 +1,4 @@
-import { RegisterRepository } from "../repositories/registerRepository.js";
+import { AuthService } from "../services/authService.js";
 
 export function authenticateJWT(req, res, next) {
   const authHeader = req.headers['auth'];
@@ -8,9 +8,9 @@ export function authenticateJWT(req, res, next) {
     return res.status(401).json('please provide token');
   }
 
-  const registerRepository = new RegisterRepository();
+  const authService = new AuthService();
   try {
-    const user = registerRepository.verifyToken(token);
+    const user = authService.verifyToken(token);
     req.user = user;
     next();
   } catch (error) {

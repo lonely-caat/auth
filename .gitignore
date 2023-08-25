@@ -131,3 +131,6 @@ dist
 
 #ide stuff
 .idea
+
+#local storage
+users.json
