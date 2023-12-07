@@ -12,7 +12,7 @@ export class AuthService{
   }
   generateToken(username) {
     const token = jwt.sign({ username: username }, SECRET_KEY, {
-      expiresIn: '1h'
+      expiresIn: '31d'
     });
     return token;
   }

@@ -1,32 +1,33 @@
-import { RegisterRepository } from "../repositories/registerRepository.js";
+import { UsersRepository } from "../repositories/usersRepository.js";
 import { AuthService } from "../services/authService.js";
-import { registerSchema } from "../helpers/schemas.js"
+import { registerSchema } from "../schemas/schemas.js";
 
-export class RegisterController {
+export class AuthController {
     constructor() {
-        this.registerRepository = new RegisterRepository();
+        this.usersRepository = new UsersRepository();
         this.authService = new AuthService();
     }
 
     registerUser = async (req, res, next) => {
-
         try {
-            await registerSchema.validate(req.body)
-
+            await registerSchema.validate(req.body);
         } catch (err) {
             return next(err);
         }
 
         const { username, password } = req.body;
-
         const hashedPassword = await this.authService.hashPassword(password, 10);
 
         try {
-            await this.registerRepository.addUser(username, hashedPassword);
+            const user = await this.usersRepository.addUser(username, hashedPassword);
+            const token = this.authService.generateToken(user.id);
 
-            const token = this.authService.generateToken(username);
             res.status(201).json({ username, token });
         } catch (error) {
+            if (error.code === 'DuplicateUsername') {
+                return res.status(409).json({ message: "Username already exists" });
+            }
+
             res.status(500).json({ message: "Error creating user" });
             next(error);
         }

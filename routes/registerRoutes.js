@@ -1,11 +1,11 @@
 import express from "express";
-import { RegisterController } from "../controllers/registerController.js";
+import { AuthController } from "../controllers/AuthController.js";
 
 const router = express.Router();
 
-const registerController = new RegisterController();
+const AuthController = new AuthController();
 
-router.post("/register", registerController.registerUser);
+router.post("/register", AuthController.registerUser);
 
 router.use(function (err, req, res, next) {
     console.error(err.message);
