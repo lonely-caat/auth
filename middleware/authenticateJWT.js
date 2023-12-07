@@ -5,7 +5,7 @@ export function authenticateJWT(req, res, next) {
   const token = authHeader && authHeader.split(' ')[1];
 
   if (!token) {
-    return res.status(401).json('please provide token');
+    return res.status(401).json('Authorization header is missing');
   }
 
   const authService = new AuthService();
